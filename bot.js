@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const client = new Client({
-    intents: [GatewayIntentBits.Guilds]
+    intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent]
 });
 
 const prefix = "?";
@@ -12,22 +12,17 @@ client.once("ready", () => {
     console.log("the Enforcer is here!");
 });
 
-client.on('error', async interaction => {
-    console.log("oh no :(");
-});
+client.on("messageCreate", async message => {
+    console.log(message.content);
+    // if (!interaction.isCommand()) {
+    //     return;
+    // }
 
-client.on("interactionCreate", async interaction => {
-    console.log("hi");
+    // const { commandName } = interaction;
 
-    if (!interaction.isCommand()) {
-        return;
-    }
-
-    const { commandName } = interaction;
-
-    if (commandName === "ping") {
-        await interaction.reply("fuck off");
-    }
+    // if (commandName === "ping") {
+    //     await interaction.reply("fuck off");
+    // }
 });
 
 client.login(process.env.token);
